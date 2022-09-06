@@ -25,6 +25,8 @@ class NotesShowFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_notes_show, container, false)
 
+        parentFragmentManager.popBackStack()
+
         data = activity as MainActivity
 
         val list = data.data.getData()
