@@ -1,15 +1,13 @@
 package com.example.notesapp.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.notesapp.Data
 import com.example.notesapp.NotesAdapter
 import com.example.notesapp.R
@@ -36,7 +34,7 @@ class NotesShowFragment : Fragment() {
 		val adapter = NotesAdapter(list, requireContext())
 		recV.adapter = adapter
 		recV.layoutManager =
-			GridLayoutManager(requireContext(),2,GridLayoutManager.VERTICAL, false)
+			StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
 
 
 		addNoteBtn = view.findViewById(R.id.addNoteBtn)
@@ -45,7 +43,6 @@ class NotesShowFragment : Fragment() {
 				.addToBackStack(null).commit()
 		}
 
-		Log.d("JKJK", "onCreateView: Helo")
 		return view
 	}
 }

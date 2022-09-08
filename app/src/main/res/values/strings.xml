@@ -6,4 +6,8 @@
     <string name="note">Note</string>
     <string name="update">Update</string>
     <string name="done">Done</string>
+    <string name="login">Login</string>
+    <string name="enter_username">Enter username</string>
+    <string name="enter_password">Enter password</string>
+    <string name="log_out">Log out</string>
 </resources>

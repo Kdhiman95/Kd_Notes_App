@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import com.example.notesapp.Constant.Companion.noteList
 import com.example.notesapp.Data
 import com.example.notesapp.R
-import com.example.notesapp.noteList
 
 class AddNoteFragment : Fragment() {
 

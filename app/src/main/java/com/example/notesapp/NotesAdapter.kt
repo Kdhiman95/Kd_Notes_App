@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.example.notesapp.Constant.Companion.noteList
 import com.example.notesapp.fragments.AddNoteFragment
 
 class NotesAdapter(private val notes: ArrayList<Bundle>, private val context: Context) :
@@ -44,8 +45,7 @@ class NotesAdapter(private val notes: ArrayList<Bundle>, private val context: Co
 //						Log.d("pos", position.toString())
 						noteList.removeAt(adapterPosition)
 						dataPref.saveData()
-						notifyDataSetChanged()
-
+						notifyItemRemoved(adapterPosition)
 					}
 					.setNegativeButton("no") { _, _ -> }
 					.show()
@@ -63,22 +63,6 @@ class NotesAdapter(private val notes: ArrayList<Bundle>, private val context: Co
 	override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 		holder.title.text = notes[position].getString("Title")
 		holder.note.text = notes[position].getString("Note")
-
-//		holder.noteView.setOnLongClickListener {
-//			val deleteDialog = AlertDialog.Builder(context)
-//			deleteDialog.setTitle("Delete")
-//				.setMessage("are you sure?")
-//				.setPositiveButton("Yes") { _, _ ->
-//					Log.d("pos", position.toString())
-//					noteList.removeAt(position)
-//					dataPref.saveData()
-//
-//				}
-//				.setNegativeButton("no") { _, _ -> }
-//				.show()
-//			true
-//		}
-
 	}
 
 	override fun getItemCount(): Int = notes.size

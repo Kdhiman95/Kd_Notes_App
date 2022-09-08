@@ -30,7 +30,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:autofillHints=""
-            android:background="@color/white"
+            android:background="@android:color/transparent"
             android:ems="15"
             android:gravity="top"
             android:hint="@string/note"
