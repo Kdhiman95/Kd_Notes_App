@@ -2,11 +2,14 @@ package com.example.notesapp
 
 import android.content.Context
 import android.os.Bundle
-import com.example.notesapp.Constant.Companion.noteList
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
 class Data(context: Context) {
+
+	companion object {
+		var noteList: ArrayList<Bundle> = ArrayList()
+	}
 
 	private val pref = context.getSharedPreferences("Notes", Context.MODE_PRIVATE)
 

@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
-import javax.security.auth.callback.Callback
 
 class SplashActivity : AppCompatActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +25,7 @@ class SplashActivity : AppCompatActivity() {
 				startActivity(Intent(this, LoginActivity::class.java))
 			}
 			finish()
-		}, 1000)
+		}, 500)
 
 	}
 }

@@ -4,16 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/purple_200"
+    android:background="@color/gray"
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".LoginActivity">
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="@color/design_default_color_on_primary"
         app:cardCornerRadius="10dp"
+        app:cardElevation="2dp"
+        app:cardMaxElevation="5dp"
+        app:cardPreventCornerOverlap="true"
         app:cardUseCompatPadding="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -27,7 +30,7 @@
             android:orientation="vertical"
             android:padding="30dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
@@ -36,34 +39,52 @@
                 android:textSize="35sp"
                 android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/inputUserName"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/usernameLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
                 android:autofillHints=""
-                android:ems="12"
                 android:hint="@string/enter_username"
-                android:inputType="text" />
+                android:inputType="text"
+                android:minEms="12"
+                app:errorEnabled="true">
 
-            <EditText
-                android:id="@+id/inputUserPswd"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/inputUserName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/userPswdLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:autofillHints=""
-                android:ems="12"
                 android:hint="@string/enter_password"
-                android:inputType="numberPassword" />
+                android:inputType="numberPassword"
+                android:minEms="12"
+                app:errorEnabled="true">
 
-            <Button
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/inputUserPswd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberPassword" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/loginBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="@string/login" />
+                android:text="@string/login"
+                app:backgroundTint="@color/purple_700" />
 
         </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

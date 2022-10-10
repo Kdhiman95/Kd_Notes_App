@@ -3,7 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/kamal/AndroidStudioProjects/NotesApp/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.177" />
+        <entry key="..\:/Users/kamal/AndroidStudioProjects/NotesApp/app/src/main/res/drawable/ic_baseline_delete_24.xml" value="0.177" />
+        <entry key="..\:/Users/kamal/AndroidStudioProjects/NotesApp/app/src/main/res/drawable/ic_baseline_edit_24.xml" value="0.177" />
         <entry key="..\:/Users/kamal/AndroidStudioProjects/NotesApp/app/src/main/res/drawable/ic_baseline_login_24.xml" value="0.177" />
+        <entry key="..\:/Users/kamal/AndroidStudioProjects/NotesApp/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.177" />
+        <entry key="..\:/Users/kamal/AndroidStudioProjects/NotesApp/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.177" />
+        <entry key="..\:/Users/kamal/AndroidStudioProjects/NotesApp/app/src/main/res/layout-land/fragment_notes_show.xml" value="0.1728395061728395" />
+        <entry key="..\:/Users/kamal/AndroidStudioProjects/NotesApp/app/src/main/res/layout-sw600dp/fragment_notes_show.xml" value="0.153125" />
         <entry key="..\:/Users/kamal/AndroidStudioProjects/NotesApp/app/src/main/res/layout/activity_input.xml" value="0.17074275362318841" />
         <entry key="..\:/Users/kamal/AndroidStudioProjects/NotesApp/app/src/main/res/layout/activity_login.xml" value="0.22" />
         <entry key="..\:/Users/kamal/AndroidStudioProjects/NotesApp/app/src/main/res/layout/activity_main.xml" value="0.2" />
@@ -14,10 +21,13 @@
         <entry key="..\:/Users/kamal/AndroidStudioProjects/NotesApp/app/src/main/res/layout/fragment_add_note_fragement.xml" value="0.17074275362318841" />
         <entry key="..\:/Users/kamal/AndroidStudioProjects/NotesApp/app/src/main/res/layout/fragment_add_notefragment.xml" value="0.17074275362318841" />
         <entry key="..\:/Users/kamal/AndroidStudioProjects/NotesApp/app/src/main/res/layout/fragment_note_show.xml" value="0.17074275362318841" />
-        <entry key="..\:/Users/kamal/AndroidStudioProjects/NotesApp/app/src/main/res/layout/fragment_notes_show.xml" value="0.17074275362318841" />
-        <entry key="..\:/Users/kamal/AndroidStudioProjects/NotesApp/app/src/main/res/layout/notes.xml" value="0.17074275362318841" />
+        <entry key="..\:/Users/kamal/AndroidStudioProjects/NotesApp/app/src/main/res/layout/fragment_notes_show.xml" value="0.18" />
+        <entry key="..\:/Users/kamal/AndroidStudioProjects/NotesApp/app/src/main/res/layout/notes.xml" value="0.25" />
+        <entry key="..\:/Users/kamal/AndroidStudioProjects/NotesApp/app/src/main/res/layout/search_view.xml" value="0.17074275362318841" />
+        <entry key="..\:/Users/kamal/AndroidStudioProjects/NotesApp/app/src/main/res/layout/toolbar.xml" value="0.17074275362318841" />
         <entry key="..\:/Users/kamal/AndroidStudioProjects/NotesApp/app/src/main/res/menu-v26/main_activity_menu.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/kamal/AndroidStudioProjects/NotesApp/app/src/main/res/menu/main_activity_menu.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/kamal/AndroidStudioProjects/NotesApp/app/src/main/res/menu/popup_menu.xml" value="0.67" />
       </map>
     </option>
   </component>

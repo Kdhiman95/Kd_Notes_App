@@ -10,4 +10,8 @@
     <string name="enter_username">Enter username</string>
     <string name="enter_password">Enter password</string>
     <string name="log_out">Log out</string>
+    <string name="last_edited">Last edited :</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="search">Search</string>
 </resources>

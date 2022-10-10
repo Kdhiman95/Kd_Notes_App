@@ -13,6 +13,12 @@
         android:orientation="vertical"
         android:padding="20dp">
 
+        <TextView
+            android:id="@+id/dateShow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="textEnd" />
+
         <EditText
             android:id="@+id/inputTitle"
             android:layout_width="match_parent"

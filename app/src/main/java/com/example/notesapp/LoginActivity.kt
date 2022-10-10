@@ -1,16 +1,21 @@
 package com.example.notesapp
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.textfield.TextInputLayout
 
 class LoginActivity : AppCompatActivity() {
 
 	private lateinit var inputUserName: EditText
 	private lateinit var inputUserPswd: EditText
 	private lateinit var loginBtn: Button
+	private lateinit var usernameLayout: TextInputLayout
+	private lateinit var userPswdLayout: TextInputLayout
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -22,6 +27,8 @@ class LoginActivity : AppCompatActivity() {
 		inputUserName = findViewById(R.id.inputUserName)
 		inputUserPswd = findViewById(R.id.inputUserPswd)
 		loginBtn = findViewById(R.id.loginBtn)
+		usernameLayout = findViewById(R.id.usernameLayout)
+		userPswdLayout = findViewById(R.id.userPswdLayout)
 
 		loginBtn.setOnClickListener {
 			if (inputUserName.text.isNotBlank() && inputUserPswd.text.isNotBlank()) {
@@ -33,14 +40,17 @@ class LoginActivity : AppCompatActivity() {
 					startActivity(Intent(this, MainActivity::class.java))
 					finish()
 				} else if (inputUserName.text.toString() != pref.getString("Username", null))
-					inputUserName.error = "Enter valid username"
+					usernameLayout.error = "Enter valid username"
 				else
-					inputUserPswd.error = "Enter valid Password"
+					userPswdLayout.error = "Enter valid Password"
 
 			} else if (inputUserName.text.isBlank())
-				inputUserName.error = "Enter username"
+				usernameLayout.error = "Enter username"
 			else
-				inputUserPswd.error = "Enter password"
+				userPswdLayout.error = "Enter password"
+			val imm: InputMethodManager =
+				(this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?)!!
+			imm.hideSoftInputFromWindow(it.windowToken, 0)
 		}
 
 	}
