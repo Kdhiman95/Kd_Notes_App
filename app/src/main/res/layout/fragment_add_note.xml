@@ -19,12 +19,13 @@
             android:layout_height="wrap_content"
             android:textAlignment="textEnd" />
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/inputTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:autofillHints=""
+            android:completionThreshold="1"
             android:ems="15"
             android:hint="@string/title"
             android:inputType="text" />

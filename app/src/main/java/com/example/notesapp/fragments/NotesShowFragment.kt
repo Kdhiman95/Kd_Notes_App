@@ -9,21 +9,25 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.example.notesapp.Data
-import com.example.notesapp.Data.Companion.noteList
 import com.example.notesapp.LoginActivity
+import com.example.notesapp.NoteApplication
 import com.example.notesapp.NotesAdapter
 import com.example.notesapp.R
+import com.example.notesapp.modal.room_database.Note
+import com.example.notesapp.view_modal.NoteViewModel
+import com.example.notesapp.view_modal.NoteViewModelFactory
 
 
 class NotesShowFragment : Fragment() {
 
 	private lateinit var recV: RecyclerView
 	private lateinit var addNoteBtn: Button
-	private lateinit var dataPref: Data
 	private lateinit var toolbar: androidx.appcompat.widget.Toolbar
+	private lateinit var noteViewModel: NoteViewModel
 	private lateinit var adapter: NotesAdapter
 
 	override fun onCreateView(
@@ -39,15 +43,22 @@ class NotesShowFragment : Fragment() {
 		(activity as AppCompatActivity).setSupportActionBar(toolbar)
 		(activity as AppCompatActivity).supportActionBar?.show()
 
-		dataPref = Data(requireContext())
+		val activity = activity as FragmentActivity
+
+		val repository = (activity.application as NoteApplication).noteRepository
+
+		noteViewModel =
+			ViewModelProvider(this, NoteViewModelFactory(repository))[NoteViewModel::class.java]
 
 		recV = view.findViewById(R.id.notesRecV)
-
-		val list = dataPref.getData()
-		adapter = NotesAdapter(list, requireContext())
-		recV.adapter = adapter
 		recV.layoutManager =
 			StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+
+		noteViewModel.noteList.observe(viewLifecycleOwner) {
+			adapter = NotesAdapter(noteViewModel.noteList.value!!, this, requireContext())
+			recV.adapter = adapter
+		}
+
 		addNoteBtn = view.findViewById(R.id.addNoteBtn)
 		addNoteBtn.setOnClickListener {
 			parentFragmentManager.beginTransaction().setCustomAnimations(
@@ -64,13 +75,14 @@ class NotesShowFragment : Fragment() {
 	}
 
 	override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-		inflater.inflate(R.menu.main_activity_menu,menu)
+		inflater.inflate(R.menu.main_activity_menu, menu)
 		val search = menu.findItem(R.id.search).actionView as SearchView
 		search.queryHint = "Search"
 		search.setBackgroundColor(Color.WHITE)
 		search.setOnQueryTextListener(object :
 			SearchView.OnQueryTextListener {
 			override fun onQueryTextSubmit(text: String): Boolean {
+				filter(text)
 				return false
 			}
 
@@ -100,22 +112,16 @@ class NotesShowFragment : Fragment() {
 	}
 
 	private fun filter(text: String) {
-		val filterList = ArrayList<Bundle>()
-		for (note in noteList) {
-			if (note.getString("Title")
-					.toString().lowercase()
+		val filterList: MutableList<Note> = mutableListOf()
+		for (note in noteViewModel.noteList.value!!) {
+			if (note.title.lowercase()
 					.contains(text.lowercase()) ||
-				note.getString("Note")
-					.toString().lowercase()
+				note.note.lowercase()
 					.contains(text.lowercase())
 			) {
 				filterList.add(note)
 			}
 		}
-		if (filterList.isEmpty()) {
-			adapter.filterList(filterList)
-		} else {
-			adapter.filterList(filterList)
-		}
+		adapter.filterList(filterList)
 	}
 }
