@@ -1,4 +1,4 @@
-package com.example.notesapp
+package com.example.notesapp.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -8,12 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.example.notesapp.fragments.AddNoteFragment
-import com.example.notesapp.fragments.NotesShowFragment
+import com.example.notesapp.R
+import com.example.notesapp.fragments.NoteShowFragment
 import com.example.notesapp.modal.repository.NoteRepository
 import com.example.notesapp.modal.room_database.Note
 import com.example.notesapp.modal.room_database.NoteDatabase
@@ -24,7 +24,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class NotesAdapter(
 	noteList: List<Note>,
-	private val fragmentContext: NotesShowFragment,
+	private val fragmentContext: NoteShowFragment,
 	private val context: Context,
 ) : RecyclerView.Adapter<NotesAdapter.ViewHolder>() {
 
@@ -47,7 +47,7 @@ class NotesAdapter(
 			noteView = item.findViewById(R.id.noteView)
 
 			noteView.setOnClickListener {
-				updateNote(it)
+				updateNote()
 			}
 			noteView.setOnLongClickListener {
 				val popupMenu = PopupMenu(context, noteView)
@@ -58,7 +58,7 @@ class NotesAdapter(
 							deleteNote()
 						}
 						"Edit" -> {
-							updateNote(it)
+							updateNote()
 						}
 					}
 					true
@@ -85,22 +85,16 @@ class NotesAdapter(
 				}.setNegativeButton("No") { _, _ -> }.show()
 		}
 
-		private fun updateNote(it: View) {
-			val activity = it.context as AppCompatActivity
-			val bundle = Bundle()
-			bundle.putInt("Position", adapterPosition)
-			bundle.putString("Title", notes[adapterPosition].title)
-			bundle.putString("Note", notes[adapterPosition].note)
-			bundle.putString("CurDate", notes[adapterPosition].curDate)
-			val updateNote = AddNoteFragment()
-			updateNote.arguments = bundle
+		private fun updateNote() {
+			val bundle = Bundle().also {
+				it.putInt("Position", adapterPosition)
+				it.putString("Title", notes[adapterPosition].title)
+				it.putString("Note", notes[adapterPosition].note)
+				it.putString("CurDate", notes[adapterPosition].curDate)
+			}
 
-			activity.supportFragmentManager.beginTransaction().setCustomAnimations(
-				R.anim.slide_in,
-				R.anim.fade_out,
-				R.anim.fade_in,
-				R.anim.slide_out
-			).replace(R.id.container, updateNote).addToBackStack(null).commit()
+			fragmentContext.findNavController()
+				.navigate(R.id.action_noteShowFragment_to_addNoteFragment, bundle)
 		}
 	}
 

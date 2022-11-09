@@ -7,12 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.*
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
-import com.example.notesapp.NoteApplication
+import androidx.navigation.fragment.findNavController
+import com.example.notesapp.utils.NoteApplication
 import com.example.notesapp.R
+import com.example.notesapp.databinding.FragmentAddNoteBinding
 import com.example.notesapp.modal.room_database.Note
 import com.example.notesapp.view_modal.NoteViewModel
 import com.example.notesapp.view_modal.NoteViewModelFactory
@@ -24,24 +26,19 @@ import java.time.format.FormatStyle
 class AddNoteFragment : Fragment() {
 
 	private lateinit var noteViewModel: NoteViewModel
-	private lateinit var inputTitle: AutoCompleteTextView
-	private lateinit var inputNote: EditText
-	private lateinit var addBtn: Button
-	private lateinit var dateShow: TextView
+	private var _binding: FragmentAddNoteBinding? = null
+	private val binding get() = _binding!!
+	private lateinit var data: Note
 
 	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?,
 		savedInstanceState: Bundle?,
-	): View? {
+	): View {
 		// Inflate the layout for this fragment
-		val view = inflater.inflate(R.layout.fragment_add_note, container, false)
-		inputTitle = view.findViewById(R.id.inputTitle)
-		inputNote = view.findViewById(R.id.inputNote)
-		addBtn = view.findViewById(R.id.addBtn)
-		dateShow = view.findViewById(R.id.dateShow)
+		_binding = FragmentAddNoteBinding.inflate(inflater, container, false)
 
-		val activity = activity as FragmentActivity
-		val repository = (activity.application as NoteApplication).noteRepository
+		val repository =
+			((activity as FragmentActivity).application as NoteApplication).noteRepository
 
 		noteViewModel =
 			ViewModelProvider(this, NoteViewModelFactory(repository))[NoteViewModel::class.java]
@@ -49,76 +46,60 @@ class AddNoteFragment : Fragment() {
 		noteViewModel.noteList.observe(viewLifecycleOwner) {
 			var titleList: Array<out String> = arrayOf()
 			for (title in noteViewModel.noteList.value!!) {
-				titleList = append(titleList,title.title)
+				titleList = append(titleList, title.title)
 			}
 			val suggestion: Array<out String> = titleList
 			val autoAdapter =
-				ArrayAdapter(activity.applicationContext, android.R.layout.simple_list_item_1, suggestion)
-			inputTitle.setAdapter(autoAdapter)
+				ArrayAdapter(requireActivity().applicationContext,
+					android.R.layout.simple_list_item_1,
+					suggestion)
+			binding.inputTitle.setAdapter(autoAdapter)
 		}
 
 		if (arguments != null) {
 			val position = requireArguments().getInt("Position")
-			inputTitle.setText(requireArguments().getString("Title"))
-			inputNote.setText(requireArguments().getString("Note"))
+			binding.inputTitle.setText(requireArguments().getString("Title"))
+			binding.inputNote.setText(requireArguments().getString("Note"))
 			val lastEdited = "Last Edited: " + requireArguments().getString("CurDate")
-			dateShow.text = lastEdited
-			dateShow.visibility = View.VISIBLE
+			binding.dateShow.text = lastEdited
+			binding.dateShow.visibility = View.VISIBLE
 
-			addBtn.setOnClickListener {
-				if (inputTitle.text.isNotBlank() || inputNote.text.isNotBlank()) {
-					val title = inputTitle.text.trim().toString()
-					val note = inputNote.text.trim().toString()
-					val curDate = getCurDate()
-					noteViewModel.updateNote(noteViewModel.noteList.value?.get(position)?.id!!,
-						title,
-						note,
-						curDate)
-					parentFragmentManager.popBackStack()
-					parentFragmentManager.beginTransaction().setCustomAnimations(
-						R.anim.slide_in,
-						R.anim.fade_out,
-						R.anim.fade_in,
-						R.anim.slide_out
-					)
-						.replace(R.id.container, NotesShowFragment())
-						.commit()
-					val imm: InputMethodManager? =
-						context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
-					imm?.hideSoftInputFromWindow(view.windowToken, 0)
-				} else {
-					inputTitle.error = "Enter title"
-					inputNote.error = "Enter note"
-				}
+			binding.addBtn.setOnClickListener {
+				val note = fetchNote()
+				noteViewModel.updateNote(noteViewModel.noteList.value?.get(position)?.id!!,
+					note.title,
+					note.note,
+					note.curDate)
+				findNavController().navigate(R.id.action_addNoteFragment_to_noteShowFragment)
+
 			}
 		} else {
-			dateShow.visibility = View.GONE
-			addBtn.setOnClickListener {
-				if (inputTitle.text.isNotBlank() || inputNote.text.isNotBlank()) {
-					val title = inputTitle.text.trim().toString()
-					val note = inputNote.text.trim().toString()
-					val curDate = getCurDate()
-					noteViewModel.insertNote(Note(0, title, note, curDate))
-					parentFragmentManager.popBackStack()
-					parentFragmentManager.beginTransaction().setCustomAnimations(
-						R.anim.slide_in,
-						R.anim.fade_out,
-						R.anim.fade_in,
-						R.anim.slide_out
-					)
-						.replace(R.id.container, NotesShowFragment())
-						.commit()
-					val imm: InputMethodManager? =
-						context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
-					imm?.hideSoftInputFromWindow(view.windowToken, 0)
-				} else {
-					inputTitle.error = "Enter title"
-					inputNote.error = "Enter note"
-				}
+			binding.dateShow.visibility = View.GONE
+			binding.addBtn.setOnClickListener {
+
+				val note = fetchNote()
+				noteViewModel.insertNote(note)
+
+				findNavController().navigate(R.id.action_addNoteFragment_to_noteShowFragment)
 			}
 		}
+		return binding.root
+	}
 
-		return view
+	private fun fetchNote(): Note {
+		if (binding.inputTitle.text.isNotBlank() || binding.inputNote.text.isNotBlank()) {
+			val title = binding.inputTitle.text.trim().toString()
+			val note = binding.inputNote.text.trim().toString()
+			val curDate = getCurDate()
+			data = Note(0,title,note,curDate)
+			val imm: InputMethodManager? =
+				context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+			imm?.hideSoftInputFromWindow(binding.root.windowToken, 0)
+		} else {
+			binding.inputTitle.error = "Enter title"
+			binding.inputNote.error = "Enter note"
+		}
+		return data
 	}
 
 	private fun append(titleList: Array<out String>, title: String): Array<out String> {
